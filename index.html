@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursadas 2026 — Pedro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0f13;--surface:#16181f;--surface2:#1e2029;--border:#2a2d3a;
+  --iec:#4f8ef7;--iec-dim:rgba(79,142,247,0.12);
+  --micro:#f97b4f;--micro-dim:rgba(249,123,79,0.12);
+  --text:#e8eaf2;--muted:#6b7190;--dim:#9499b8;
+  --green:#4fbd8e;--yellow:#f5c842;--red:#f74f5e;--purple:#b87af7;
+  --r:12px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(79,142,247,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 80%,rgba(249,123,79,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 20px 80px}
+header{padding:40px 0 32px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.hl h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(24px,4vw,38px);letter-spacing:-.5px;line-height:1.1}
+.hl h1 .ic{color:var(--iec)}.hl p{font-size:13px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace}
+.gp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;gap:16px;min-width:220px}
+.gp .lbl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.gp .cnt{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;white-space:nowrap}
+.gp .cnt span{font-size:13px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400}
+.bw{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;min-width:80px}
+.bf{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--iec),var(--micro));transition:width .4s}
+nav{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap}
+.tab{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;padding:8px 18px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.tab:hover{border-color:var(--dim);color:var(--text)}
+.tab.active{background:var(--surface2);border-color:var(--dim);color:var(--text)}
+.tab.active.ti{border-color:var(--iec);color:var(--iec);background:var(--iec-dim)}
+.tab.active.tm{border-color:var(--micro);color:var(--micro);background:var(--micro-dim)}
+.tab.active.tf{border-color:var(--yellow);color:var(--yellow);background:rgba(245,200,66,.1)}
+.panel{display:none}.panel.active{display:block;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sr{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:99px 99px 0 0}
+.sc.si::before{background:var(--iec)}.sc.sm::before{background:var(--micro)}.sc.sb::before{background:linear-gradient(90deg,var(--iec),var(--micro))}.sc.sg::before{background:var(--green)}.sc.sy::before{background:var(--yellow)}.sc.sp::before{background:var(--purple)}
+.sc .v{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.sc .l{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
+.mh{display:flex;align-items:center;gap:12px;margin:28px 0 14px;flex-wrap:wrap}
+.mh h2{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.badge{font-family:'DM Mono',monospace;font-size:10px;padding:3px 10px;border-radius:99px;font-weight:500;letter-spacing:.5px}
+.badge.i{background:var(--iec-dim);color:var(--iec);border:1px solid rgba(79,142,247,.3)}
+.badge.m{background:var(--micro-dim);color:var(--micro);border:1px solid rgba(249,123,79,.3)}
+.pm{display:flex;align-items:center;gap:8px;margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.pm .mb{width:80px;height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.pm .mf{height:100%;border-radius:99px;transition:width .4s}
+.mf.i{background:var(--iec)}.mf.m{background:var(--micro)}
+.cl{display:flex;flex-direction:column;gap:4px}
+.ci{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:var(--rs);border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:all .18s;user-select:none}
+.ci:hover{border-color:var(--dim);background:var(--surface2)}
+.ci.done{background:transparent;border-color:#2a2d3a;opacity:.4}
+.ci.done:hover{opacity:.65}
+.ci.done .ct{text-decoration:line-through;color:#4a4f63}
+.ci.feriado{border-color:rgba(247,79,94,.2);background:rgba(247,79,94,.04)}
+.ci.eval{border-color:rgba(159,79,247,.25);background:rgba(159,79,247,.06)}
+.ci.recuper{border-color:rgba(159,79,247,.25);background:rgba(159,79,247,.06)}
+.ci.consulta{border-color:rgba(79,189,142,.2);background:rgba(79,189,142,.04)}
+.ci.empresa_b{border-color:rgba(245,200,66,.2);background:rgba(245,200,66,.04)}
+.ci.especial{border-color:rgba(245,200,66,.15);background:rgba(245,200,66,.03)}
+.cb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;font-size:11px}
+.ci.done .cb{background:var(--green);border-color:var(--green);color:#fff}
+.ci:not(.done):hover .cb{border-color:var(--dim)}
+.cm{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.cr1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cd{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.ctag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:99px;letter-spacing:.4px;white-space:nowrap}
+.tt{background:var(--iec-dim);color:var(--iec)}
+.tp{background:rgba(79,189,142,.12);color:var(--green)}
+.tf{background:rgba(247,79,94,.1);color:var(--red)}
+.te{background:rgba(159,79,247,.12);color:var(--purple)}
+.tsp{background:rgba(245,200,66,.1);color:var(--yellow)}
+.tc{background:rgba(79,189,142,.12);color:var(--green)}
+.teb{background:rgba(245,200,66,.1);color:var(--yellow)}
+.tr{background:rgba(159,79,247,.12);color:var(--purple)}
+.tmt{background:var(--micro-dim);color:var(--micro)}
+.tmp{background:rgba(79,189,142,.12);color:var(--green)}
+.ct{font-size:13px;color:var(--text);line-height:1.4}
+.ws{display:flex;align-items:center;gap:10px;margin:16px 0 8px;opacity:.5}
+.ws span{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
+.ws::before,.ws::after{content:'';flex:1;height:1px;background:var(--border)}
+.fb{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.fb .b{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.3px}
+.fb .b:hover{color:var(--text);border-color:var(--dim)}
+.fb .b.active{background:var(--surface2);color:var(--text);border-color:var(--dim)}
+.fs{flex:1}
+.rb{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:99px;border:1px solid rgba(247,79,94,.3);background:transparent;color:var(--red);cursor:pointer;transition:all .15s}
+.rb:hover{background:rgba(247,79,94,.08)}
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px;font-family:'DM Mono',monospace}
+
+/* CALENDAR */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.cm2{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.cmh{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);letter-spacing:.3px}
+.ces{padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+.ce{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:6px;font-size:12px;cursor:pointer;transition:opacity .15s}
+.ce:hover{opacity:.75}.ce.done{opacity:.35}
+.ced{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.cei{flex:1;min-width:0}
+.cedate{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:1px}
+.cetitle{color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ce.done .cetitle{text-decoration:line-through;color:#4a4f63}
+
+/* UPCOMING */
+.ul2{display:flex;flex-direction:column;gap:8px}
+.ui{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--rs);background:var(--surface);border:1px solid var(--border)}
+.ud{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;width:44px;text-align:center;flex-shrink:0}
+.ud small{display:block;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);font-weight:400;margin-top:-2px}
+.uinfo{flex:1}
+.udate{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.utopic{font-size:13px;color:var(--text);margin-top:2px}
+.udot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ═══ FECHAS IMPORTANTES ═══ */
+.fis{margin-bottom:36px}
+.fist{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.fist::after{content:'';flex:1;height:1px;background:var(--border)}
+.fig{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.fic{border-radius:var(--r);border:1px solid var(--border);background:var(--surface);overflow:hidden;transition:border-color .2s,transform .15s}
+.fic:hover{transform:translateY(-1px)}
+.fic.dc{opacity:.38}.fic.dc:hover{opacity:.55}
+.fii{display:flex}
+.ficd{width:74px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px;border-right:1px solid var(--border)}
+.ficd .cn{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;line-height:1;transition:color .3s}
+.ficd .cu{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.5px;margin-top:2px}
+.ficd .cp{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.3px}
+.ficb{padding:12px 14px;flex:1;min-width:0}
+.fitags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;align-items:center}
+.fitag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;border-radius:99px;letter-spacing:.4px;font-weight:500}
+.fitag.iec{background:var(--iec-dim);color:var(--iec);border:1px solid rgba(79,142,247,.25)}
+.fitag.micro{background:var(--micro-dim);color:var(--micro);border:1px solid rgba(249,123,79,.25)}
+.fitag.parcial{background:rgba(247,79,94,.1);color:var(--red);border:1px solid rgba(247,79,94,.25)}
+.fitag.entrega{background:rgba(245,200,66,.1);color:var(--yellow);border:1px solid rgba(245,200,66,.25)}
+.fitag.recuper{background:rgba(184,122,247,.1);color:var(--purple);border:1px solid rgba(184,122,247,.25)}
+.fitag.autoeval{background:rgba(249,123,79,.1);color:var(--micro);border:1px solid rgba(249,123,79,.25)}
+.fitag.expo{background:rgba(79,189,142,.1);color:var(--green);border:1px solid rgba(79,189,142,.25)}
+.fitt{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:4px}
+.fitd{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.fic.dc .fitt{text-decoration:line-through;color:#4a4f63}
+.ur .cn{color:var(--red)}.uy .cn{color:var(--yellow)}.ug .cn{color:var(--green)}.ub .cn{color:var(--iec)}.uo .cn{color:var(--micro)}.um .cn{color:var(--muted)}
+.fic.ur{border-color:rgba(247,79,94,.35)}.fic.uy{border-color:rgba(245,200,66,.35)}
+.fdb{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all .15s;align-self:flex-start;margin-top:1px;margin-left:auto}
+.fdb:hover{border-color:var(--green)}
+.fic.dc .fdb{background:var(--green);border-color:var(--green);color:#fff}
+
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+@media(max-width:600px){header{flex-direction:column;align-items:flex-start}.gp{width:100%}.fig{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="hl">
+    <h1>Cursadas <span class="ic">2026</span></h1>
+    <p>IEC · Microeconomía I &nbsp;|&nbsp; La Plata &nbsp;<span id="sync-badge" style="font-size:10px;transition:color .3s"></span></p>
+  </div>
+  <div class="gp">
+    <div><div class="cnt" id="gC">0 <span>/ 0</span></div><div class="lbl">CLASES COMPLETADAS</div></div>
+    <div class="bw"><div class="bf" id="gB" style="width:0%"></div></div>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active"  onclick="sw('all')">Todas las clases</button>
+  <button class="tab ti"      onclick="sw('iec')">IEC</button>
+  <button class="tab tm"      onclick="sw('micro')">Microeconomía I</button>
+  <button class="tab tf"      onclick="sw('fechas')">🗓 Fechas importantes</button>
+  <button class="tab"         onclick="sw('calendar')">📅 Calendario</button>
+  <button class="tab"         onclick="sw('upcoming')">⚡ Próximas</button>
+</nav>
+
+<!-- ALL -->
+<div class="panel active" id="panel-all">
+  <div class="sr">
+    <div class="sc sb"><div class="v" id="s-td">0</div><div class="l">COMPLETADAS</div></div>
+    <div class="sc si"><div class="v" id="s-id">0</div><div class="l">IEC COMPLETAS</div></div>
+    <div class="sc sm"><div class="v" id="s-md">0</div><div class="l">MICRO COMPLETAS</div></div>
+    <div class="sc sg"><div class="v" id="s-pct">0%</div><div class="l">AVANCE TOTAL</div></div>
+  </div>
+  <div class="fb">
+    <button class="b active" onclick="sf('all','all')">Todo</button>
+    <button class="b" onclick="sf('all','pendiente')">Pendientes</button>
+    <button class="b" onclick="sf('all','done')">Completadas</button>
+    <div class="fs"></div>
+    <button class="rb" onclick="resetAll()">↺ Reset</button>
+  </div>
+  <div class="cl" id="list-all"></div>
+</div>
+
+<!-- IEC -->
+<div class="panel" id="panel-iec">
+  <div class="sr">
+    <div class="sc si"><div class="v" id="is-d">0</div><div class="l">COMPLETADAS</div></div>
+    <div class="sc si"><div class="v" id="is-t">0</div><div class="l">TOTAL CLASES</div></div>
+    <div class="sc si"><div class="v" id="is-p">0%</div><div class="l">AVANCE</div></div>
+  </div>
+  <div class="fb">
+    <button class="b active" onclick="sf('iec','all')">Todo</button>
+    <button class="b" onclick="sf('iec','pendiente')">Pendientes</button>
+    <button class="b" onclick="sf('iec','done')">Completadas</button>
+  </div>
+  <div class="mh">
+    <h2>IEC — Interpretación de los Estados Contables</h2>
+    <div class="badge i">COM 4 · MAR 7hs / VIE 19hs</div>
+    <div class="pm"><span id="ip-t">0/0</span><div class="mb"><div class="mf i" id="ip-b" style="width:0%"></div></div></div>
+  </div>
+  <div class="cl" id="list-iec"></div>
+</div>
+
+<!-- MICRO -->
+<div class="panel" id="panel-micro">
+  <div class="sr">
+    <div class="sc sm"><div class="v" id="ms-d">0</div><div class="l">COMPLETADAS</div></div>
+    <div class="sc sm"><div class="v" id="ms-t">0</div><div class="l">TOTAL CLASES</div></div>
+    <div class="sc sm"><div class="v" id="ms-p">0%</div><div class="l">AVANCE</div></div>
+  </div>
+  <div class="fb">
+    <button class="b active" onclick="sf('micro','all')">Todo</button>
+    <button class="b" onclick="sf('micro','pendiente')">Pendientes</button>
+    <button class="b" onclick="sf('micro','done')">Completadas</button>
+  </div>
+  <div class="mh">
+    <h2>Microeconomía I</h2>
+    <div class="badge m">COM 1 · MAR 10–13hs / JUE 10–13hs</div>
+    <div class="pm"><span id="mp-t">0/0</span><div class="mb"><div class="mf m" id="mp-b" style="width:0%"></div></div></div>
+  </div>
+  <div class="cl" id="list-micro"></div>
+</div>
+
+<!-- FECHAS IMPORTANTES -->
+<div class="panel" id="panel-fechas">
+  <div class="sr">
+    <div class="sc sy"><div class="v" id="fi-prox" style="color:var(--yellow)">—</div><div class="l">DÍAS A PRÓX. EVAL</div></div>
+    <div class="sc sp"><div class="v" id="fi-pend" style="color:var(--purple)">0</div><div class="l">EVALS PENDIENTES</div></div>
+    <div class="sc sm"><div class="v" id="fi-ae" style="color:var(--micro)">0</div><div class="l">AUTOEVALS PENDIENTES</div></div>
+    <div class="sc sg"><div class="v" id="fi-done">0</div><div class="l">COMPLETADAS</div></div>
+  </div>
+  <div class="fis"><div class="fist">IEC — Parciales y Recuperatorios</div><div class="fig" id="fi-ip"></div></div>
+  <div class="fis"><div class="fist">IEC — Trabajos Prácticos / Empresa B</div><div class="fig" id="fi-it"></div></div>
+  <div class="fis"><div class="fist">Microeconomía I — Autoevaluaciones</div><div class="fig" id="fi-ma"></div></div>
+  <div class="fis"><div class="fist">Microeconomía I — Recuperatorio General</div><div class="fig" id="fi-mr"></div></div>
+</div>
+
+<!-- CALENDAR -->
+<div class="panel" id="panel-calendar"><div class="cg" id="cal-grid"></div></div>
+
+<!-- UPCOMING -->
+<div class="panel" id="panel-upcoming">
+  <div class="sr">
+    <div class="sc sb"><div class="v" id="uc-nd" style="color:var(--iec)">—</div><div class="l">DÍAS PRÓXIMA CLASE</div></div>
+    <div class="sc sg"><div class="v" id="uc-7">0</div><div class="l">PRÓXIMAS 7 DÍAS</div></div>
+    <div class="sc sb"><div class="v" id="uc-ev" style="color:var(--yellow)">0</div><div class="l">EVALUACIONES RESTANTES</div></div>
+  </div>
+  <div class="mh" style="margin-top:0"><h2>Próximas clases — 30 días</h2></div>
+  <div class="ul2" id="ul"></div>
+  <div class="mh" style="margin-top:28px"><h2>⚠️ Evaluaciones y entregas pendientes</h2></div>
+  <div class="ul2" id="el"></div>
+</div>
+
+</div>
+<script>
+const IEC=[
+  {id:'i1', mat:'iec',sem:1, fecha:'2026-03-10',label:'Mar 10/03 · 7hs',  tipo:'teoria',   tema:'Unidad 1'},
+  {id:'i2', mat:'iec',sem:1, fecha:'2026-03-13',label:'Vie 13/03 · 19hs', tipo:'practica', tema:'TP U1'},
+  {id:'i3', mat:'iec',sem:2, fecha:'2026-03-17',label:'Mar 17/03 · 7hs',  tipo:'teoria',   tema:'Unidad 2'},
+  {id:'i4', mat:'iec',sem:2, fecha:'2026-03-20',label:'Vie 20/03 · 19hs', tipo:'practica', tema:'TP U2'},
+  {id:'i5', mat:'iec',sem:3, fecha:'2026-03-24',label:'Mar 24/03 · 7hs',  tipo:'feriado',  tema:'SIN ACTIVIDAD — Feriado'},
+  {id:'i6', mat:'iec',sem:3, fecha:'2026-03-27',label:'Vie 27/03 · 19hs', tipo:'feriado',  tema:'SIN ACTIVIDAD — Feriado'},
+  {id:'i7', mat:'iec',sem:4, fecha:'2026-03-31',label:'Mar 31/03 · 7hs',  tipo:'teoria',   tema:'Unidad 3'},
+  {id:'i8', mat:'iec',sem:4, fecha:'2026-04-03',label:'Vie 03/04 · 19hs', tipo:'practica', tema:'TP U4'},
+  {id:'i9', mat:'iec',sem:5, fecha:'2026-04-07',label:'Mar 07/04 · 7hs',  tipo:'teoria',   tema:'Unidad 4'},
+  {id:'i10',mat:'iec',sem:5, fecha:'2026-04-10',label:'Vie 10/04 · 19hs', tipo:'practica', tema:'TP U5'},
+  {id:'i11',mat:'iec',sem:6, fecha:'2026-04-14',label:'Mar 14/04 · 7hs',  tipo:'teoria',   tema:'Unidad 5'},
+  {id:'i12',mat:'iec',sem:6, fecha:'2026-04-17',label:'Vie 17/04 · 19hs', tipo:'practica', tema:'TP U5'},
+  {id:'i13',mat:'iec',sem:7, fecha:'2026-04-21',label:'Mar 21/04 · 7hs',  tipo:'consulta', tema:'U5 + Clase de Consulta'},
+  {id:'i14',mat:'iec',sem:7, fecha:'2026-04-24',label:'Vie 24/04 · 19hs', tipo:'consulta', tema:'Clase de Consulta'},
+  {id:'ie1',mat:'iec',sem:7, fecha:'2026-04-25',label:'Sáb 25/04 · 10hs', tipo:'eval',     tema:'⚠️ PRIMER PARCIAL (Práctica y Teoría)'},
+  {id:'i15',mat:'iec',sem:8, fecha:'2026-04-28',label:'Mar 28/04 · 7hs',  tipo:'teoria',   tema:'Unidad 6'},
+  {id:'i16',mat:'iec',sem:8, fecha:'2026-05-01',label:'Vie 01/05 · 19hs', tipo:'practica', tema:'TP U6'},
+  {id:'ie2',mat:'iec',sem:8, fecha:'2026-05-02',label:'Sáb 02/05 · 23:59',tipo:'eval',     tema:'⚠️ ENTREGA PARCIAL — Empresa B'},
+  {id:'i17',mat:'iec',sem:9, fecha:'2026-05-05',label:'Mar 05/05 · 7hs',  tipo:'teoria',   tema:'Unidad 6 (cont.)'},
+  {id:'i18',mat:'iec',sem:9, fecha:'2026-05-08',label:'Vie 08/05 · 19hs', tipo:'practica', tema:'TP U6'},
+  {id:'ie3',mat:'iec',sem:9, fecha:'2026-05-09',label:'Sáb 09/05 · 10hs', tipo:'eval',     tema:'⚠️ RECUPERATORIO 1er Parcial Práctica'},
+  {id:'i19',mat:'iec',sem:10,fecha:'2026-05-12',label:'Mar 12/05 · 7hs',  tipo:'teoria',   tema:'Unidad 7'},
+  {id:'i20',mat:'iec',sem:10,fecha:'2026-05-15',label:'Vie 15/05 · 19hs', tipo:'empresa_b',tema:'Empresa B'},
+  {id:'i21',mat:'iec',sem:12,fecha:'2026-05-26',label:'Mar 26/05 · 7hs',  tipo:'teoria',   tema:'Unidad 7'},
+  {id:'i22',mat:'iec',sem:12,fecha:'2026-05-29',label:'Vie 29/05 · 19hs', tipo:'practica', tema:'TP U7'},
+  {id:'i23',mat:'iec',sem:13,fecha:'2026-06-02',label:'Mar 02/06 · 7hs',  tipo:'teoria',   tema:'Unidad 8'},
+  {id:'i24',mat:'iec',sem:13,fecha:'2026-06-05',label:'Vie 05/06 · 19hs', tipo:'practica', tema:'TP U7'},
+  {id:'i25',mat:'iec',sem:14,fecha:'2026-06-09',label:'Mar 09/06 · 7hs',  tipo:'teoria',   tema:'Unidad 9'},
+  {id:'i26',mat:'iec',sem:14,fecha:'2026-06-12',label:'Vie 12/06 · 19hs', tipo:'practica', tema:'TP U8'},
+  {id:'i27',mat:'iec',sem:15,fecha:'2026-06-16',label:'Mar 16/06 · 7hs',  tipo:'consulta', tema:'Clase de Consulta'},
+  {id:'ie4',mat:'iec',sem:15,fecha:'2026-06-18',label:'Jue 18/06 · 19hs', tipo:'eval',     tema:'⚠️ SEGUNDO PARCIAL (Práctica y Teoría)'},
+  {id:'i28',mat:'iec',sem:15,fecha:'2026-06-19',label:'Vie 19/06 · 19hs', tipo:'consulta', tema:'TP U9 + Clase de Consulta'},
+  {id:'ie5',mat:'iec',sem:15,fecha:'2026-06-20',label:'Sáb 20/06 · 23:59',tipo:'eval',     tema:'⚠️ ENTREGA FINAL — Empresa B'},
+  {id:'i29',mat:'iec',sem:17,fecha:'2026-06-30',label:'29/06–04/07',       tipo:'empresa_b',tema:'EXPOSICIONES EMPRESA B'},
+  {id:'ie6',mat:'iec',sem:17,fecha:'2026-07-04',label:'Sáb 04/07 · 9hs',  tipo:'eval',     tema:'⚠️ RECUP. 2do Parcial Práctica + RECUP. Teoría'},
+  {id:'ie7',mat:'iec',sem:19,fecha:'2026-08-10',label:'Lun 10/08 · 19hs', tipo:'recuper',  tema:'⚠️ RECUPERATORIO GENERAL PRÁCTICA'},
+];
+const MICRO=[
+  {id:'m1', mat:'micro',sem:1,   fecha:'2026-03-10',label:'Mar 10/03 · 10hs',tipo:'teoria',  tema:'Introducción. O y D, Equilibrio, Elasticidades. Consumidor: preferencias y restricción presupuestaria. (U. I–II)'},
+  {id:'m2', mat:'micro',sem:1,   fecha:'2026-03-12',label:'Jue 12/03 · 10hs',tipo:'practica',tema:'Práctica — Unidades I y II'},
+  {id:'m3', mat:'micro',sem:2,   fecha:'2026-03-17',label:'Mar 17/03 · 10hs',tipo:'teoria',  tema:'Elección del consumidor. Demanda individual. Bienes relacionados. Variaciones de ingreso. Tipos de bienes. (U. III.1–III.3, IV.3)'},
+  {id:'m4', mat:'micro',sem:2,   fecha:'2026-03-19',label:'Jue 19/03 · 10hs',tipo:'practica',tema:'Práctica — Unidades III.1, III.2, III.3 y IV.3'},
+  {id:'m5', mat:'micro',sem:3,   fecha:'2026-03-24',label:'Mar 24/03 · 10hs',tipo:'feriado', tema:'FERIADO — Sin actividad'},
+  {id:'m6', mat:'micro',sem:3,   fecha:'2026-03-26',label:'Jue 26/03 · 10hs',tipo:'feriado', tema:'FERIADO — Sin actividad'},
+  {id:'m7', mat:'micro',sem:'3-4',fecha:'2026-03-31',label:'Mar 31/03 · 10hs',tipo:'teoria', tema:'Ef. Sustitución y Ef. Ingreso. Demanda de mercado. Excedente del consumidor. Compensaciones Hicks/Slutsky. Índices de precios. (U. III.3 cont. y IV)'},
+  {id:'m8', mat:'micro',sem:'3-4',fecha:'2026-04-02',label:'Jue 02/04 · 10hs',tipo:'practica',tema:'Práctica — Unidades III.3 (cont.) y IV'},
+  {id:'m9', mat:'micro',sem:4,   fecha:'2026-04-07',label:'Mar 07/04 · 10hs',tipo:'teoria',  tema:'Firma: tecnología con 1 y 2 factores variables. Rendimientos marginales decrecientes. Sustitución entre factores. Rendimientos a escala. (U. V)'},
+  {id:'m10',mat:'micro',sem:4,   fecha:'2026-04-09',label:'Jue 09/04 · 10hs',tipo:'practica',tema:'Práctica — Unidad V'},
+  {id:'m11',mat:'micro',sem:5,   fecha:'2026-04-14',label:'Mar 14/04 · 10hs',tipo:'teoria',  tema:'Costos: definiciones. Costos CP y LP. Min. costo con dos factores. Elasticidad de sustitución. (U. VI.1–VI.2)'},
+  {id:'m12',mat:'micro',sem:5,   fecha:'2026-04-16',label:'Jue 16/04 · 10hs',tipo:'practica',tema:'Práctica — Unidades VI.1 y VI.2'},
+  {id:'m13',mat:'micro',sem:6,   fecha:'2026-04-21',label:'Mar 21/04 · 10hs',tipo:'teoria',  tema:'Sendero de expansión. Curvas de costos CP y LP. Economías de escala. Producción con dos productos. (U. VI.2–VI.4)'},
+  {id:'m14',mat:'micro',sem:6,   fecha:'2026-04-23',label:'Jue 23/04 · 10hs',tipo:'practica',tema:'Práctica — Unidades VI.2 (cont.), VI.3 y VI.4'},
+  {id:'m15',mat:'micro',sem:7,   fecha:'2026-04-28',label:'Mar 28/04 · 10hs',tipo:'teoria',  tema:'Firma en Competencia Perfecta. Max. beneficios — CP. Curva de oferta. (U. VII.1)'},
+  {id:'m16',mat:'micro',sem:7,   fecha:'2026-04-30',label:'Jue 30/04 · 10hs',tipo:'practica',tema:'Práctica — Unidad VII.1'},
+  {id:'m17',mat:'micro',sem:9,   fecha:'2026-05-05',label:'Mar 05/05 · 10hs',tipo:'teoria',  tema:'Firma comp. — LP. Oferta de la industria. Excedente del productor. Equilibrio CP y LP. (U. VII.1–VII.2)'},
+  {id:'m18',mat:'micro',sem:9,   fecha:'2026-05-07',label:'Jue 07/05 · 10hs',tipo:'practica',tema:'Práctica — Unidades VII.1 y VII.2'},
+  {id:'m19',mat:'micro',sem:10,  fecha:'2026-05-12',label:'Mar 12/05 · 10hs',tipo:'teoria',  tema:'Industria competitiva (cont.). Análisis de mercados. Eficiencia. Monopolio. (U. VII.2, VII.3, VIII.1)'},
+  {id:'m20',mat:'micro',sem:10,  fecha:'2026-05-14',label:'Jue 14/05 · 10hs',tipo:'practica',tema:'Práctica — Unidades VII.2, VII.3 y VIII.1'},
+  {id:'m21',mat:'micro',sem:11,  fecha:'2026-05-19',label:'Mar 19/05 · 10hs',tipo:'teoria',  tema:'Monopolio (cont.) (U. VIII.1)'},
+  {id:'m22',mat:'micro',sem:11,  fecha:'2026-05-21',label:'Jue 21/05 · 10hs',tipo:'practica',tema:'Práctica — Unidad VIII.1'},
+  {id:'m23',mat:'micro',sem:12,  fecha:'2026-05-26',label:'Mar 26/05 · 10hs',tipo:'teoria',  tema:'Competencia Monopolística. Introducción a Teoría de los Juegos. (U. VIII.2–VIII.4)'},
+  {id:'m24',mat:'micro',sem:12,  fecha:'2026-05-28',label:'Jue 28/05 · 10hs',tipo:'practica',tema:'Práctica — Unidades VIII.2, VIII.3 y VIII.4'},
+  {id:'m25',mat:'micro',sem:13,  fecha:'2026-06-02',label:'Mar 02/06 · 10hs',tipo:'teoria',  tema:'Teoría de Juegos (cont.). Oligopolio. Equilibrio de Nash. Dilema del prisionero. Mercado de Factores. (U. VIII.3–VIII.4, IX)'},
+  {id:'m26',mat:'micro',sem:13,  fecha:'2026-06-04',label:'Jue 04/06 · 10hs',tipo:'practica',tema:'Práctica — Unidades VIII.3, VIII.4 y IX'},
+  {id:'m27',mat:'micro',sem:14,  fecha:'2026-06-09',label:'Mar 09/06 · 10hs',tipo:'teoria',  tema:'Mercado de Factores. (U. IX)'},
+  {id:'m28',mat:'micro',sem:14,  fecha:'2026-06-11',label:'Jue 11/06 · 10hs',tipo:'practica',tema:'Práctica — Unidad IX'},
+  {id:'m29',mat:'micro',sem:15,  fecha:'2026-06-16',label:'Mar 16/06 · 10hs',tipo:'teoria',  tema:'Equilibrio General. (U. XI)'},
+  {id:'m30',mat:'micro',sem:15,  fecha:'2026-06-18',label:'Jue 18/06 · 10hs',tipo:'practica',tema:'Práctica — Unidad XI'},
+  {id:'m31',mat:'micro',sem:16,  fecha:'2026-06-23',label:'Mar 23/06 · 10hs',tipo:'teoria',  tema:'Fallas de mercado. Externalidades. Bienes Públicos. Economía de la Información. Selección Adversa. Riesgo Moral. (U. X)'},
+  {id:'m32',mat:'micro',sem:16,  fecha:'2026-06-25',label:'Jue 25/06 · 10hs',tipo:'practica',tema:'Práctica — Unidad X'},
+  {id:'m33',mat:'micro',sem:17,  fecha:'2026-06-30',label:'Mar 30/06 · 10hs',tipo:'especial',tema:'Sin tema definido (consulta / libre)'},
+  {id:'m34',mat:'micro',sem:17,  fecha:'2026-07-02',label:'Jue 02/07 · 10hs',tipo:'especial',tema:'Sin tema definido (consulta / libre)'},
+  {id:'m35',mat:'micro',sem:18,  fecha:'2026-07-07',label:'Mar 07/07 · 10hs',tipo:'especial',tema:'Sin tema definido (consulta / libre)'},
+  {id:'m36',mat:'micro',sem:18,  fecha:'2026-07-09',label:'Jue 09/07 · 10hs',tipo:'especial',tema:'Sin tema definido (consulta / libre)'},
+  {id:'me1',mat:'micro',sem:19,  fecha:'2026-08-03',label:'1ra sem. post-vacaciones',tipo:'recuper',tema:'⚠️ RECUPERATORIO GENERAL'},
+];
+
+const FI_IP=[
+  {id:'fp1',titulo:'Primer Parcial — Práctica y Teoría',   fecha:'2026-04-25',label:'Sáb 25/04 · 10hs',  tags:['iec','parcial']},
+  {id:'fp2',titulo:'Recuperatorio 1er Parcial Práctica',   fecha:'2026-05-09',label:'Sáb 09/05 · 10hs',  tags:['iec','recuper']},
+  {id:'fp3',titulo:'Segundo Parcial — Práctica y Teoría',  fecha:'2026-06-18',label:'Jue 18/06 · 19hs',  tags:['iec','parcial']},
+  {id:'fp4',titulo:'Recuperatorio 2do Parcial Práctica + Recuperatorio 1er y 2do Parcial Teoría',fecha:'2026-07-04',label:'Sáb 04/07 · 9hs',tags:['iec','recuper']},
+  {id:'fp5',titulo:'Recuperatorio General Práctica',       fecha:'2026-08-10',label:'Lun 10/08 · 19hs',  tags:['iec','recuper']},
+];
+const FI_IT=[
+  {id:'ft1',titulo:'Entrega Parcial — Empresa B',  fecha:'2026-05-02',label:'Sáb 02/05 · 23:59',tags:['iec','entrega']},
+  {id:'ft2',titulo:'Entrega Final — Empresa B',    fecha:'2026-06-20',label:'Sáb 20/06 · 23:59',tags:['iec','entrega']},
+  {id:'ft3',titulo:'Exposiciones Empresa B',       fecha:'2026-06-30',label:'Semana 29/06–04/07',tags:['iec','expo']},
+];
+const FI_MA=[
+  {id:'ae1',titulo:'Autoevaluación 1',fecha:'2026-03-21',label:'Sáb 21/03',tags:['micro','autoeval'],temas:'Matemática (TP1) + TP2'},
+  {id:'ae2',titulo:'Autoevaluación 2',fecha:'2026-04-11',label:'Sáb 11/04',tags:['micro','autoeval'],temas:'TP3'},
+  {id:'ae3',titulo:'Autoevaluación 3',fecha:'2026-04-25',label:'Sáb 25/04',tags:['micro','autoeval'],temas:'TP4'},
+  {id:'ae4',titulo:'Autoevaluación 4',fecha:'2026-05-16',label:'Sáb 16/05',tags:['micro','autoeval'],temas:'TP5'},
+  {id:'ae5',titulo:'Autoevaluación 5',fecha:'2026-05-30',label:'Sáb 30/05',tags:['micro','autoeval'],temas:'TP6'},
+  {id:'ae6',titulo:'Autoevaluación 6',fecha:'2026-06-13',label:'Sáb 13/06',tags:['micro','autoeval'],temas:'TP7'},
+];
+const FI_MR=[
+  {id:'mr1',titulo:'Recuperatorio General',fecha:'2026-08-03',label:'1ra sem. post-vacaciones invierno',tags:['micro','recuper']},
+];
+const ALL_FI=[...FI_IP,...FI_IT,...FI_MA,...FI_MR];
+const ALL=[...IEC,...MICRO].sort((a,b)=>a.fecha.localeCompare(b.fecha)||a.id.localeCompare(b.id));
+
+let done=new Set();
+let doneFI=new Set();
+let fil={all:'all',iec:'all',micro:'all'};
+const LS_KEY='cursadas2026_v1';
+
+// Load from localStorage on start (instant, no flicker)
+try{const fb=JSON.parse(localStorage.getItem(LS_KEY)||'{}');done=new Set(fb.done||[]);doneFI=new Set(fb.doneFI||[]);}catch{}
+
+function lsSave(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({done:[...done],doneFI:[...doneFI]}));}catch{}
+}
+
+function setSyncUI(s){
+  const el=document.getElementById('sync-badge');
+  if(!el)return;
+  const map={saved:'✓ guardado'};
+  const col={saved:'var(--green)'};
+  el.textContent=map[s]||'';el.style.color=col[s]||'';
+}
+let saveTimer=null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    lsSave();
+    setSyncUI('saved');
+    setTimeout(()=>setSyncUI(''),1800);
+  },300);
+}
+
+const tog=(id)=>{done.has(id)?done.delete(id):done.add(id);render();save();};
+const togFI=(id)=>{doneFI.has(id)?doneFI.delete(id):doneFI.add(id);render();save();};
+function resetAll(){if(!confirm('¿Resetear todo el progreso?'))return;done.clear();doneFI.clear();lsSave();render();}
+
+function days(f){const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(f)-t)/86400000)}
+function urg(d){if(d<0)return'um';if(d<=3)return'ur';if(d<=7)return'uy';if(d<=14)return'ug';if(d<=30)return'ub';return'uo'}
+
+function mkFICard(item){
+  const d=days(item.fecha),isDone=doneFI.has(item.id),u=isDone?'um':urg(d);
+  const tags=item.tags.map(t=>`<span class="fitag ${t}">${t.toUpperCase()}</span>`).join('');
+  const sub=item.temas?`<div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px">${item.temas}</div>`:'';
+  let cn,cu;
+  if(isDone){cn='✓';cu='LISTO';}
+  else if(d<0){cn=Math.abs(d);cu='DÍAS PASADO';}
+  else if(d===0){cn='HOY';cu='';}
+  else{cn=d;cu=d===1?'DÍA':'DÍAS';}
+  const c=document.createElement('div');
+  c.className=`fic ${u}${isDone?' dc':''}`;
+  c.innerHTML=`<div class="fii">
+    <div class="ficd"><div class="cn">${cn}</div>${cu?`<div class="${d<0&&!isDone?'cp':'cu'}">${cu}</div>`:''}</div>
+    <div class="ficb">
+      <div class="fitags">${tags}<button class="fdb" onclick="event.stopPropagation();togFI('${item.id}')">✓</button></div>
+      <div class="fitt">${item.titulo}</div>
+      <div class="fitd">${item.label}</div>${sub}
+    </div></div>`;
+  return c;
+}
+
+const TL={teoria:'TEORÍA',practica:'PRÁCTICA',feriado:'FERIADO',eval:'EVALUACIÓN',consulta:'CONSULTA',empresa_b:'EMPRESA B',recuper:'RECUPERATORIO',especial:'SIN DEFINIR'};
+function tc(tipo,mat){
+  if(tipo==='teoria')return mat==='micro'?'tmt':'tt';
+  if(tipo==='practica')return mat==='micro'?'tmp':'tp';
+  return{feriado:'tf',eval:'te',consulta:'tc',empresa_b:'teb',recuper:'tr',especial:'tsp'}[tipo]||'tt';
+}
+
+function mkCI(cls){
+  const isDone=done.has(cls.id),d=document.createElement('div');
+  d.className=`ci ${cls.tipo}${isDone?' done':''}`;
+  d.onclick=()=>tog(cls.id);
+  const mb=`<span class="badge ${cls.mat==='iec'?'i':'m'}" style="font-size:9px;padding:2px 6px">${cls.mat==='iec'?'IEC':'MICRO'}</span>`;
+  d.innerHTML=`<div class="cb">${isDone?'✓':''}</div>
+    <div class="cm"><div class="cr1">
+      <span class="cd">${cls.label}</span>
+      <span class="ctag ${tc(cls.tipo,cls.mat)}">${TL[cls.tipo]||cls.tipo.toUpperCase()}</span>${mb}
+    </div><div class="ct">${cls.tema}</div></div>`;
+  return d;
+}
+
+function rl(cid,classes,f){
+  const el=document.getElementById(cid);el.innerHTML='';
+  let fl=classes;
+  if(f==='done')fl=classes.filter(c=>done.has(c.id));
+  if(f==='pendiente')fl=classes.filter(c=>!done.has(c.id));
+  if(!fl.length){el.innerHTML='<div class="empty">No hay clases en esta vista.</div>';return}
+  let lw=null;
+  fl.forEach(c=>{
+    const wk=`${c.mat}-s${c.sem}`;
+    if(wk!==lw){const s=document.createElement('div');s.className='ws';s.innerHTML=`<span>Semana ${c.sem} · ${c.mat==='iec'?'IEC':'Micro'}</span>`;el.appendChild(s);lw=wk}
+    el.appendChild(mkCI(c));
+  });
+}
+
+function rlAll(){
+  const el=document.getElementById('list-all');el.innerHTML='';
+  let cl=ALL;
+  const f=fil.all;
+  if(f==='done')cl=ALL.filter(c=>done.has(c.id));
+  if(f==='pendiente')cl=ALL.filter(c=>!done.has(c.id));
+  if(!cl.length){el.innerHTML='<div class="empty">No hay clases en esta vista.</div>';return}
+  const mn=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto'];
+  let lm=null;
+  cl.forEach(c=>{
+    const mo=c.fecha.slice(0,7);
+    if(mo!==lm){const[y,m]=c.fecha.split('-');const s=document.createElement('div');s.className='ws';s.innerHTML=`<span>${mn[+m]} ${y}</span>`;el.appendChild(s);lm=mo}
+    el.appendChild(mkCI(c));
+  });
+}
+
+function rFI(){
+  [['fi-ip',FI_IP],['fi-it',FI_IT],['fi-ma',FI_MA],['fi-mr',FI_MR]].forEach(([id,items])=>{
+    const el=document.getElementById(id);el.innerHTML='';items.forEach(it=>el.appendChild(mkFICard(it)));
+  });
+  const today=new Date();today.setHours(0,0,0,0);
+  const pend=ALL_FI.filter(f=>!doneFI.has(f.id)&&new Date(f.fecha)>=today);
+  const aePend=FI_MA.filter(f=>!doneFI.has(f.id)&&new Date(f.fecha)>=today);
+  const nonAe=pend.filter(f=>!f.id.startsWith('ae'));
+  const nxt=pend.sort((a,b)=>a.fecha.localeCompare(b.fecha))[0];
+  document.getElementById('fi-prox').textContent=nxt?days(nxt.fecha):'—';
+  document.getElementById('fi-pend').textContent=nonAe.length;
+  document.getElementById('fi-ae').textContent=aePend.length;
+  document.getElementById('fi-done').textContent=doneFI.size;
+}
+
+function rCal(){
+  const grid=document.getElementById('cal-grid');grid.innerHTML='';
+  const months={};
+  const mn=['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto'];
+  const items=[
+    ...ALL.map(c=>({id:c.id,fecha:c.fecha,label:c.label,title:c.tema,mat:c.mat,fi:false})),
+    ...ALL_FI.map(f=>({id:f.id,fecha:f.fecha,label:f.label,title:f.titulo,mat:f.tags[0],fi:true}))
+  ].sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  items.forEach(c=>{
+    const[y,m]=c.fecha.split('-'),k=`${y}-${m}`;
+    if(!months[k])months[k]={label:`${mn[+m]} ${y}`,ev:[]};
+    months[k].ev.push(c);
+  });
+  Object.entries(months).sort(([a],[b])=>a.localeCompare(b)).forEach(([,mo])=>{
+    const card=document.createElement('div');card.className='cm2';
+    const dc=c=>c.fi?doneFI.has(c.id):done.has(c.id);
+    const fn=c=>c.fi?`togFI('${c.id}')`:`tog('${c.id}')`;
+    const dot=c=>c.fi?'var(--purple)':c.mat==='iec'?'var(--iec)':'var(--micro)';
+    card.innerHTML=`<div class="cmh">${mo.label}</div><div class="ces">${
+      mo.ev.map(c=>`<div class="ce${dc(c)?' done':''}" onclick="${fn(c)}">
+        <div class="ced" style="background:${dot(c)}"></div>
+        <div class="cei"><div class="cedate">${c.label}${c.fi?' · ⚠️':''}</div>
+        <div class="cetitle">${c.title}</div></div></div>`).join('')
+    }</div>`;
+    grid.appendChild(card);
+  });
+}
+
+function rUp(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const in30=new Date(today);in30.setDate(today.getDate()+30);
+  const in7=new Date(today);in7.setDate(today.getDate()+7);
+  const pend=ALL.filter(c=>!done.has(c.id));
+  const up30=pend.filter(c=>{const d=new Date(c.fecha);return d>=today&&d<=in30});
+  const up7=pend.filter(c=>{const d=new Date(c.fecha);return d>=today&&d<=in7});
+  const evs=[...IEC,...MICRO].filter(c=>!done.has(c.id)&&(c.tipo==='eval'||c.tipo==='recuper'));
+  const nxt=pend.filter(c=>new Date(c.fecha)>=today).sort((a,b)=>a.fecha.localeCompare(b.fecha))[0];
+  document.getElementById('uc-nd').textContent=nxt?Math.round((new Date(nxt.fecha)-today)/86400000):'—';
+  document.getElementById('uc-7').textContent=up7.length;
+  document.getElementById('uc-ev').textContent=evs.length;
+  const ul=document.getElementById('ul');ul.innerHTML='';
+  if(!up30.length){ul.innerHTML='<div class="empty">Sin clases pendientes en los próximos 30 días.</div>';}
+  up30.forEach(c=>{
+    const d=Math.round((new Date(c.fecha)-today)/86400000);
+    const col=c.mat==='iec'?'var(--iec)':'var(--micro)';
+    const el=document.createElement('div');el.className='ui';
+    el.innerHTML=`<div class="ud" style="color:${col}">${d}<small>días</small></div>
+      <div class="uinfo"><div class="udate">${c.label} · ${c.mat==='iec'?'IEC':'Microeconomía'}</div><div class="utopic">${c.tema}</div></div>
+      <div class="udot" style="background:${col}"></div>`;
+    ul.appendChild(el);
+  });
+  const el2=document.getElementById('el');el2.innerHTML='';
+  if(!evs.length){el2.innerHTML='<div class="empty">Sin evaluaciones pendientes 🎉</div>';}
+  evs.forEach(c=>{
+    const d=Math.round((new Date(c.fecha)-today)/86400000);
+    const el=document.createElement('div');el.className='ui';el.style.borderColor='rgba(159,79,247,.25)';
+    el.innerHTML=`<div class="ud" style="color:var(--purple)">${d>=0?d:'—'}<small>días</small></div>
+      <div class="uinfo"><div class="udate">${c.label} · ${c.mat==='iec'?'IEC':'Microeconomía'}</div><div class="utopic">${c.tema}</div></div>
+      <div class="udot" style="background:var(--purple)"></div>`;
+    el2.appendChild(el);
+  });
+}
+
+function uStats(){
+  const ia=IEC.length,id=IEC.filter(c=>done.has(c.id)).length;
+  const ma=MICRO.length,md=MICRO.filter(c=>done.has(c.id)).length;
+  const tot=ia+ma,td=id+md,pct=tot?Math.round(td/tot*100):0;
+  document.getElementById('gC').innerHTML=`${td} <span>/ ${tot}</span>`;
+  document.getElementById('gB').style.width=pct+'%';
+  document.getElementById('s-td').textContent=td;
+  document.getElementById('s-id').textContent=id;
+  document.getElementById('s-md').textContent=md;
+  document.getElementById('s-pct').textContent=pct+'%';
+  document.getElementById('is-d').textContent=id;
+  document.getElementById('is-t').textContent=ia;
+  document.getElementById('is-p').textContent=ia?Math.round(id/ia*100)+'%':'0%';
+  document.getElementById('ip-t').textContent=`${id}/${ia}`;
+  document.getElementById('ip-b').style.width=ia?(id/ia*100)+'%':'0%';
+  document.getElementById('ms-d').textContent=md;
+  document.getElementById('ms-t').textContent=ma;
+  document.getElementById('ms-p').textContent=ma?Math.round(md/ma*100)+'%':'0%';
+  document.getElementById('mp-t').textContent=`${md}/${ma}`;
+  document.getElementById('mp-b').style.width=ma?(md/ma*100)+'%':'0%';
+}
+
+function uFB(){
+  [['all',0],['iec',1],['micro',2]].forEach(([tab,i])=>{
+    const bar=document.querySelectorAll('.fb')[i];if(!bar)return;
+    const btns=[...bar.querySelectorAll('.b')];
+    const vals=['all','pendiente','done'];
+    btns.forEach((b,j)=>b.classList.toggle('active',vals[j]===fil[tab]));
+  });
+}
+
+function render(){uStats();rlAll();rl('list-iec',IEC,fil.iec);rl('list-micro',MICRO,fil.micro);rFI();rCal();rUp();uFB()}
+function sf(tab,val){fil[tab]=val;render()}
+function sw(tab){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active','ti','tm','tf'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  const t=document.querySelector(`[onclick="sw('${tab}')"]`);
+  t.classList.add('active');
+  if(tab==='iec')t.classList.add('ti');
+  if(tab==='micro')t.classList.add('tm');
+  if(tab==='fechas')t.classList.add('tf');
+}
+
+render();
+setInterval(render,60000);
+</script>
+</body>
+</html>
